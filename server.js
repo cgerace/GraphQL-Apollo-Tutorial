@@ -30,6 +30,7 @@ const apolloServer = new ApolloServer({
         await verifyUser(req);
         return {
             email: req.email,
+            userId: req.loggedInUserId,
         }
     }
 });
