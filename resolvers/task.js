@@ -48,6 +48,16 @@ module.exports = {
                 console.log("Error is ------>", error)
                 throw error;
             }
+        }),
+        deleteTask: combineResolvers(isAuthenticated, isTaskOwner, async (_, {id }, { userId }) => {
+            try {
+                 const task = await Task.findByIdAndDelete(id);
+                 await User.updateOne({_id: userId}, {$pull: { tasks: task.id }});
+                 return task;
+            } catch (error) {
+                console.log("Error is ------>", error)
+                throw error;
+            }
         })
     },
     Task: {
